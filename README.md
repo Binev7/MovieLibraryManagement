@@ -98,19 +98,12 @@ All properties can be overridden via environment variables or profile-specific c
 
 ---
 
-## Security & Authentication
+## Security & Authentication (NEW)
 
-Spring Security is enabled.
+This project uses Spring Security and HTTP Basic for authentication. Recent changes add register/login functionality and related tests.
 
-* **ADMIN role** is required for create, update, and delete operations.
-* Read-only endpoints are accessible to non-admin users.
+* Users are now stored in the database with roles (USER, ADMIN).
+* Passwords are securely hashed using BCrypt.
+* A dev-only initializer can create default roles and an admin user.
 
-Refer to:
-
-```
-src/main/java/com/example/movielibrarymanagement/security/
-```
-
-for details about authentication mechanism, roles, and credentials.
-
----
+Authentication protects the endpoints; after registering or logging in, users can include Basic Auth headers in requests to access protected resources.
