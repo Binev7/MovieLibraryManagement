@@ -1,6 +1,10 @@
-package com.example.movielibrarymanagement.exception;
+package com.example.movielibrarymanagement.controller;
 
 import com.example.movielibrarymanagement.dto.ErrorResponseDto;
+import com.example.movielibrarymanagement.exception.ExternalServiceException;
+import com.example.movielibrarymanagement.exception.InvalidDataException;
+import com.example.movielibrarymanagement.exception.ResourceAlreadyExistsException;
+import com.example.movielibrarymanagement.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
