@@ -4,6 +4,7 @@ import com.example.movielibrarymanagement.dto.AuthResponseDto;
 import com.example.movielibrarymanagement.dto.LoginRequestDto;
 import com.example.movielibrarymanagement.dto.RegisterRequestDto;
 import com.example.movielibrarymanagement.exception.ResourceAlreadyExistsException;
+import com.example.movielibrarymanagement.helper.mapper.UserMapper;
 import com.example.movielibrarymanagement.model.Role;
 import com.example.movielibrarymanagement.model.User;
 import com.example.movielibrarymanagement.repository.UserRepository;
@@ -29,11 +30,18 @@ class UserServiceTest {
 
     private UserService userService;
 
+    private UserMapper userMapper;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        userService = new UserServiceImpl(userRepository, passwordEncoder);
+        userService = new UserServiceImpl(
+                userRepository,
+                passwordEncoder,
+                userMapper
+        );
     }
+
 
     @Test
     void register_ShouldCreateUser_WhenUsernameNotTaken() {
