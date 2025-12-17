@@ -4,6 +4,7 @@ import com.example.movielibrarymanagement.dto.AuthResponseDto;
 import com.example.movielibrarymanagement.dto.LoginRequestDto;
 import com.example.movielibrarymanagement.dto.RegisterRequestDto;
 import com.example.movielibrarymanagement.exception.ResourceAlreadyExistsException;
+import com.example.movielibrarymanagement.helper.mapper.UserMapper;
 import com.example.movielibrarymanagement.model.Role;
 import com.example.movielibrarymanagement.model.User;
 import com.example.movielibrarymanagement.repository.UserRepository;
@@ -18,6 +19,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     @Override
     @Transactional
@@ -26,8 +28,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceAlreadyExistsException("Username already taken: " + registerRequest.getUsername());
         }
 
-        User user = new User();
-        user.setUsername(registerRequest.getUsername());
+        User user = userMapper.toEntity(registerRequest);
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setRole(Role.ROLE_USER);
 
@@ -45,6 +46,5 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Invalid credentials");
         }
 
-        return new AuthResponseDto(user.getId(), user.getUsername(), user.getRole().name());
-    }
+        return userMapper.toAuthResponseDto(user);    }
 }
