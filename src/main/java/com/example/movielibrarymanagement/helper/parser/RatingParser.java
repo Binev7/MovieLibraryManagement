@@ -1,21 +1,32 @@
 package com.example.movielibrarymanagement.helper.parser;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+/**
+ * Parser for handling rating values from external APIs (e.g., OMDB).
+ * Responsible for validating and normalizing rating strings.
+ */
 @Component
-@Slf4j
 public class RatingParser {
 
-    public Double parseRating(String rating) {
-        if (StringUtils.hasText(rating) && !"N/A".equalsIgnoreCase(rating)) {
-            try {
-                return Double.parseDouble(rating);
-            } catch (NumberFormatException e) {
-                log.warn("Invalid rating format received: {}", rating);
-            }
+    /**
+     * Parses a rating string from an external API response.
+     * Returns null if the rating is "N/A", empty, or invalid.
+     *
+     * @param ratingString the rating string from the API (e.g., "7.5", "N/A")
+     * @return the normalized rating string, or null if not available
+     */
+    public String parseRating(String ratingString) {
+        if (!StringUtils.hasText(ratingString)) {
+            return null;
         }
-        return null;
+
+        if ("N/A".equalsIgnoreCase(ratingString.trim())) {
+            return null;
+        }
+
+        return ratingString.trim();
     }
 }
+
