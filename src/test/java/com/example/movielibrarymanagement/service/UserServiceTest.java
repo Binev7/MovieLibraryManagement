@@ -26,11 +26,13 @@ class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private UserMapper userMapper;
+
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private UserService userService;
 
-    private UserMapper userMapper;
 
     @BeforeEach
     void setUp() {
@@ -49,7 +51,11 @@ class UserServiceTest {
         req.setUsername("alice");
         req.setPassword("password123");
 
+        User user = new User();
+        user.setUsername("alice");
+
         when(userRepository.existsByUsername("alice")).thenReturn(false);
+        when(userMapper.toEntity(req)).thenReturn(user);
 
         when(userRepository.save(any())).thenAnswer(invocation -> {
             User u = invocation.getArgument(0);
@@ -84,6 +90,9 @@ class UserServiceTest {
 
         User user = new User(2L, "carol", passwordEncoder.encode("secret"), Role.ROLE_USER);
         when(userRepository.findByUsername("carol")).thenReturn(Optional.of(user));
+
+        AuthResponseDto expectedResponse = new AuthResponseDto(2L, "carol", Role.ROLE_USER.name());
+        when(userMapper.toAuthResponseDto(user)).thenReturn(expectedResponse);
 
         AuthResponseDto resp = userService.login(req);
 

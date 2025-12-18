@@ -25,7 +25,7 @@ public class OmdbClient {
     private final RestClient restClient = RestClient.create();
     private static final String OMDB_URL = "http://www.omdbapi.com/";
 
-    public Double fetchImdbRating(String title) {
+    public String fetchImdbRating(String title) {
         if (!StringUtils.hasText(apiKey)) {
             throw new ExternalServiceException("OMDb API key is not configured in application.properties");
         }

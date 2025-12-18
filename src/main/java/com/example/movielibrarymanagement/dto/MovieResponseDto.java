@@ -13,5 +13,5 @@ public class MovieResponseDto {
     private String title;
     private String director;
     private Integer releaseYear;
-    private Double rating;
+    private String rating;
 }

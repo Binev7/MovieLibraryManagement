@@ -6,23 +6,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "movies")
+@Table(name = "ratings")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Movie {
+public class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String title;
+    private String value;
 
-    private String director;
-
-    private Integer releaseYear;
-
-    @OneToOne(mappedBy = "movie", cascade = CascadeType.ALL)
-    private Rating rating;
+    @OneToOne
+    @JoinColumn(name = "movie_id", nullable = false)
+    private Movie movie;
 }
+

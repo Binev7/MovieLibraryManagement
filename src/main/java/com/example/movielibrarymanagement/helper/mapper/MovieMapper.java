@@ -3,10 +3,14 @@ package com.example.movielibrarymanagement.helper.mapper;
 import com.example.movielibrarymanagement.dto.MovieRequestDto;
 import com.example.movielibrarymanagement.dto.MovieResponseDto;
 import com.example.movielibrarymanagement.model.Movie;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class MovieMapper {
+
+    private final RatingMapper ratingMapper;
 
     public MovieResponseDto toResponseDto(Movie movie) {
         MovieResponseDto dto = new MovieResponseDto();
@@ -14,7 +18,7 @@ public class MovieMapper {
         dto.setTitle(movie.getTitle());
         dto.setDirector(movie.getDirector());
         dto.setReleaseYear(movie.getReleaseYear());
-        dto.setRating(movie.getRating());
+        dto.setRating(ratingMapper.toValueString(movie.getRating()));
         return dto;
     }
 
