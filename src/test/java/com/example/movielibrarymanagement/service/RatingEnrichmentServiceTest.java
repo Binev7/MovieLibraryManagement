@@ -83,15 +83,13 @@ class RatingEnrichmentServiceTest {
 
     @Test
     void enrich_WhenMovieDeletedMeanwhile_ShouldNotUpdate() {
-        Rating rating = new Rating();
-        rating.setValue("8.0");
-
         when(omdbClient.fetchImdbRating(any())).thenReturn("8.0");
-        when(ratingMapper.toEntity("8.0")).thenReturn(rating);
-        when(movieRepository.findById(any())).thenReturn(Optional.empty());
+        when(movieRepository.findById(1L)).thenReturn(Optional.empty());
 
         ratingEnrichmentService.enrich(1L, "Title");
 
         verify(movieRepository, never()).save(any());
+        verify(ratingMapper, never()).toEntity(any());
     }
+
 }
