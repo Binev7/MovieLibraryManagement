@@ -38,6 +38,13 @@ The root path `/` redirects:
 
 ## Local Setup & Run
 
+### Database Initialization
+
+SQL scripts for database schema creation and initial data insertion are provided in `src/main/resources/db`. 
+* Schema script – creates the required database tables
+* Data script – inserts sample data
+
+
 ### Prerequisites
 
 * JDK 17
