@@ -2,7 +2,6 @@ package com.example.movielibrarymanagement.integration;
 
 import com.example.movielibrarymanagement.dto.OmdbResponseDto;
 import com.example.movielibrarymanagement.exception.ExternalServiceException;
-import com.example.movielibrarymanagement.helper.parser.RatingParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,11 +20,10 @@ public class OmdbClient {
     @Value("${omdb.api.key}")
     private String apiKey;
 
-    private final RatingParser ratingParser;
     private final RestClient restClient = RestClient.create();
     private static final String OMDB_URL = "http://www.omdbapi.com/";
 
-    public Double fetchImdbRating(String title) {
+    public String fetchImdbRating(String title) {
         if (!StringUtils.hasText(apiKey)) {
             throw new ExternalServiceException("OMDb API key is not configured in application.properties");
         }
@@ -45,7 +43,8 @@ public class OmdbClient {
                     .body(OmdbResponseDto.class);
 
             if (response != null && "True".equalsIgnoreCase(response.response())) {
-                return ratingParser.parseRating(response.imdbRating());
+                String rating = response.imdbRating();
+                return (StringUtils.hasText(rating) && !"N/A".equalsIgnoreCase(rating)) ? rating : null;
             } else {
                 log.warn("OMDb returned error for '{}': {}", title, response != null ? response.error() : "Unknown error");
             }
