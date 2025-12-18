@@ -23,6 +23,6 @@ public class Movie {
 
     private Integer releaseYear;
 
-    @Column(nullable = true)
-    private Double rating;
+    @OneToOne(mappedBy = "movie", cascade = CascadeType.ALL)
+    private Rating rating;
 }
