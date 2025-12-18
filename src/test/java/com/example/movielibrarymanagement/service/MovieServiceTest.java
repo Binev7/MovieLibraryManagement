@@ -32,7 +32,7 @@ class MovieServiceTest {
     private MovieMapper movieMapper;
 
     @InjectMocks
-    private MovieService movieService;
+    private MovieServiceImpl movieService;
 
     @Test
     void createMovie_ShouldSaveAndReturnMovie() {
@@ -76,7 +76,7 @@ class MovieServiceTest {
         movie.setId(id);
 
         when(movieRepository.findById(id)).thenReturn(Optional.of(movie));
-        when(movieMapper.toResponseDto(movie)).thenReturn(new MovieResponseDto(id, "Title", "Director", 2020, 5.0));
+        when(movieMapper.toResponseDto(movie)).thenReturn(new MovieResponseDto(id, "Title", "Director", 2020, "5.0"));
 
         MovieResponseDto result = movieService.getMovieById(id);
 
